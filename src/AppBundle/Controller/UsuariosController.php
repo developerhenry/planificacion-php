@@ -47,7 +47,7 @@ class UsuariosController extends Controller
         try{
             $buscar = $request->query->get('buscar');
             if(!$buscar){
-                return $this->json(['status' => 0 ]);
+                return $this->json(['status' => 'Variable no asignada' ]);
             }
             $em = $this->getDoctrine()->getEntityManager(); 
             $usuario = $em->getRepository('AppBundle:Usuarios')->findBy(['id' => $buscar ]);
@@ -73,7 +73,23 @@ class UsuariosController extends Controller
      */
     public function insertarAction(Request $request)
     {
-        return $this->json(['status' => 'insertar' ]);
+        try{
+            $em = $this->getDoctrine()->getEntityManager();
+            $post = json_decode($request->getContent(),true);
+
+            $usuarios = new Usuarios();
+            $usuarios->setApenom($post['apenom']);
+            $usuarios->setNomusuario($post['nomusuario']);
+            $usuarios->setClave($post['clave']);
+            $usuarios->setEmail($post['email']);
+            $usuarios->setIsActive(1);
+            $em->persist($usuarios);
+            $em->flush();
+            
+            return $this->json(['status' => 'insertar' ]);
+        } catch (Exception $e) {
+            return $this->json( $e->getMessage());
+        }
     }
 
      /**
