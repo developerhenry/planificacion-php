@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\DavidController;
+namespace AppBundle\Controller;
 
 use AppBundle\Entity\Usuarios;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
-    * @Route("/David")
+    * @Route("/david")
     */
 class DavidController extends Controller
 {
