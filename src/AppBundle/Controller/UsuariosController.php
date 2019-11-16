@@ -78,6 +78,7 @@ class UsuariosController extends Controller
             $post = json_decode($request->getContent(),true);
 
             $usuarios = new Usuarios();
+
             $usuarios->setApenom($post['apenom']);
             $usuarios->setNomusuario($post['nomusuario']);
             $usuarios->setClave($post['clave']);
@@ -86,7 +87,7 @@ class UsuariosController extends Controller
             $em->persist($usuarios);
             $em->flush();
             
-            return $this->json(['status' => 'insertar' ]);
+            return $this->json(['status' => '0', 'msg' => 'Datos Insertados Correctamente' ]);
         } catch (Exception $e) {
             return $this->json( $e->getMessage());
         }
