@@ -39,7 +39,23 @@ class UsuariosController extends Controller
      */
     public function buscarAction(Request $request)
     {
-        return $this->json(['status' => 'buscar']);
+        $buscar = $request->query->get('buscar');
+        if(!$buscar){
+            return $this->json(['status' => 0 ]);
+        }
+        $em = $this->getDoctrine()->getEntityManager(); 
+        $usuario = $em->getRepository('AppBundle:Usuarios')->findBy(['id' => $buscar ]);
+        $row = [];
+        foreach($usuario as $o){
+            $row[] =[
+                'id' => $o->getId(),
+                'nombre' => $o->getNomusuario(),
+                'password' => $o->getClave()
+            ];
+        }
+        
+        return $this->json(['status' => 0 , 'data' => $row ]);
+       
     }
 
 
