@@ -2,8 +2,6 @@
 
 namespace AppBundle\Controller;
 
-/** jose */
-
 use AppBundle\Entity\Usuarios;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +19,6 @@ class JoseloController extends Controller
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->json(['status' => 0 , 'data' => $row ]);
+        return $this->json(['status' => 0  ]);
     }
 }

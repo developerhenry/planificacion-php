@@ -19,50 +19,57 @@ class UsuariosController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager(); 
-        $usuario = $em->getRepository('AppBundle:Usuarios')->findAll(); 
-        $row = [];
-        foreach($usuario as $o){
-            $row[] =[
-                'id' => $o->getId(),
-                'nombre' => $o->getNomusuario(),
-                'password' => $o->getClave()
-            ];
-        }
+       try{
+            $em = $this->getDoctrine()->getEntityManager(); 
+            $usuario = $em->getRepository('AppBundle:Usuarios')->findAll(); 
+            $row = [];
+            foreach($usuario as $o){
+                $row[] =[
+                    'id' => $o->getId(),
+                    'nombre' => $o->getNomusuario(),
+                    'password' => $o->getClave()
+                ];
+            }
 
-        // replace this example code with whatever you need
-        return $this->json(['status' => 0 , 'data' => $row ]);
+            // replace this example code with whatever you need
+            return $this->json(['status' => 0 , 'data' => $row ]);
+        } catch (Exception $e) {
+            return $this->json( $e->getMessage());
+        }
     }
 
      /**
-     * @Route("/buscar", name="homepage")
-     * @Method({"GET"})
+     * @Route("/buscar")
+     * @Method("GET")
      */
     public function buscarAction(Request $request)
     {
-        $buscar = $request->query->get('buscar');
-        if(!$buscar){
-            return $this->json(['status' => 0 ]);
+        try{
+            $buscar = $request->query->get('buscar');
+            if(!$buscar){
+                return $this->json(['status' => 0 ]);
+            }
+            $em = $this->getDoctrine()->getEntityManager(); 
+            $usuario = $em->getRepository('AppBundle:Usuarios')->findBy(['id' => $buscar ]);
+            $row = [];
+            foreach($usuario as $o){
+                $row[] =[
+                    'id' => $o->getId(),
+                    'nombre' => $o->getNomusuario(),
+                    'password' => $o->getClave()
+                ];
+            }
+            
+            return $this->json(['status' => 0 , 'data' => $row ]);
+        } catch (Exception $e) {
+            return $this->json( $e->getMessage());
         }
-        $em = $this->getDoctrine()->getEntityManager(); 
-        $usuario = $em->getRepository('AppBundle:Usuarios')->findBy(['id' => $buscar ]);
-        $row = [];
-        foreach($usuario as $o){
-            $row[] =[
-                'id' => $o->getId(),
-                'nombre' => $o->getNomusuario(),
-                'password' => $o->getClave()
-            ];
-        }
-        
-        return $this->json(['status' => 0 , 'data' => $row ]);
-       
     }
 
 
      /**
-     * @Route("/insertar", name="homepage")
-     * @Method({"POST"})
+     * @Route("/insertar")
+     * @Method("POST")
      */
     public function insertarAction(Request $request)
     {
@@ -70,8 +77,8 @@ class UsuariosController extends Controller
     }
 
      /**
-     * @Route("/actualizar", name="homepage")
-     * @Method({"PATCH"})
+     * @Route("/actualizar")
+     * @Method("PATCH")
      */
     public function actualizarAction(Request $request)
     {
@@ -79,13 +86,12 @@ class UsuariosController extends Controller
     }
 
      /**
-     * @Route("/eliminar", name="homepage")
-     * @Method({"DELETE"})
+     * @Route("/eliminar")
+     * @Method("DELETE")
      */
     public function eliminarAction(Request $request)
     {
         return $this->json(['status' => 'eliminar' ]);
     }
-
 
 }
